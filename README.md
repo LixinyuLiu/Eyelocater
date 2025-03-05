@@ -9,7 +9,7 @@ Single-Cell Localisation: Easily integrate your own single-cell datasets.\
 GUI-Based Analysis: An interactive graphical interface simplifies data exploration.\
 High-Throughput: Designed to work with h5ad formatted data for efficient processing.\
 
-# Prerequisites
+## Prerequisites
 ```bash
 conda env create -f st_environment.yml
 conda activate eyelocater_env  # Replace with the environment name if different
@@ -18,7 +18,7 @@ conda activate eyelocater_env  # Replace with the environment name if different
 Download your data and place it in the data folder inside the Eyelocater directory. \
 The data is: xxxx
 
-# Usage
+## Usage
 ```bash
 python3 GUI.py
 ```
