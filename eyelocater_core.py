@@ -270,12 +270,31 @@ def _plot_and_save(data, config: AnnotationConfig) -> Dict[str, List[str]]:
         if config.plot_type in ("cell", "both"):
             print("[Eyelocater] Generating cluster_scatter by annotation...")
             data.plt.cluster_scatter(res_key="annotation", dot_size=2)
+            fig = plt.gcf()
+            ax = plt.gca()
+            fig.set_size_inches(8, 7, forward=True)
+            ax.set_aspect("equal", adjustable="box")
+            fig.tight_layout()
+            fig.subplots_adjust(right=0.80)
+
+            # 2) 把 legend 挪到图外右侧
+            handles, labels = ax.get_legend_handles_labels()
+            if handles:
+                ax.legend(
+                    handles,
+                    labels,
+                    loc="upper left",  # legend 的“左上角”
+                    bbox_to_anchor=(1.02, 1.0),  # 相对于 axes 的坐标 (x>1 表示在外面)
+                    borderaxespad=0.0,
+                )
             plt.savefig(config.out_pdf, format="pdf")
             print(f"Cluster scatter plot saved as '{config.out_pdf}'.")
             plot_files["cell"].append(config.out_pdf)
+
             if config.show_plot:
                 plt.show()
-            plt.close()
+            else:
+                plt.close()
 
         # 2) gene-level：按 gene 表达上色（支持多个 gene）
         if config.plot_type in ("gene", "both"):
@@ -314,14 +333,16 @@ def _plot_and_save(data, config: AnnotationConfig) -> Dict[str, List[str]]:
                     plot_files["gene"].append(out_gene_pdf)
                     if config.show_plot:
                         plt.show()
-                    plt.close()
+                    else:
+                        plt.close()
 
     except Exception as e:
         raise AnnotationError(
             f"Error generating or saving plots: {e}"
         ) from e
     finally:
-        plt.close("all")
+        if not config.show_plot:
+            plt.close("all")
 
     return plot_files
 

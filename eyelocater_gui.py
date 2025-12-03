@@ -222,6 +222,7 @@ class MainWindow(QMainWindow):
             "Logs will appear here (methods used, warnings, errors)…"
         )
         main_layout.addWidget(self.log_edit, stretch=1)
+        self.update_plot_output_enable()
 
     # --------- Browse helpers ---------
     def highlight_region(self, region_name: str):
